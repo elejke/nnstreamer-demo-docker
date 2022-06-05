@@ -18,6 +18,9 @@ docker-compose down
 # Build the container
 docker build -t nnstreamer .
 
+# On Ubuntu 20.04 and newer:
+xhost si:localuser:root
+
 # Start the container and open a shell
 docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/video0 nnstreamer
 
