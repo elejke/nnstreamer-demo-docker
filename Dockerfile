@@ -1,4 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND noninteractive
+ARG LANG="C.UTF-8"
 
 WORKDIR /workspace/
 
@@ -15,7 +18,6 @@ RUN apt-get update; \
 		gstreamer1.0-plugins-bad \
 		gstreamer1.0-plugins-ugly \
 		python3-dev \
-		python-dev \
 		python3-pip \
 		libglib2.0-dev \
 		libcairo2-dev \
@@ -27,25 +29,27 @@ RUN apt-get update; \
 		axel;
 
 RUN set -eu; \
-	add-apt-repository ppa:nnstreamer/ppa; \
+	add-apt-repository ppa:nnstreamer; \
 	apt-get update; \
 	apt-get upgrade -y; \
 	apt-get install -y \
 		nnstreamer \
-		nnstreamer-dev \
-		nnstreamer-tensorflow \
+		nnstreamer-example \
 		libprotobuf-dev;
 
 RUN set -eu; \
 	git clone --recursive https://github.com/nnsuite/nnstreamer-example; \
 	cd nnstreamer-example; \
-	meson build; \
-	cd build; \
-	ninja; \
-	cd ..; \
-	meson install; \
-	cd bash_script/; \
-	bash example_models/get-model-object-detection-tf.sh;
+	cd bash_script; \
+	bash example_models/get-model.sh object-detection-tf;
+	#meson build; \
+	#cd build; \
+	#ninja; \
+	#cd ..; \
+	#meson install; \
+	#cd bash_script/; \
+	#bash example_models/get-model-object-detection-tf.sh;
+
 
 WORKDIR /workspace/nnstreamer-example/bash_script/
 

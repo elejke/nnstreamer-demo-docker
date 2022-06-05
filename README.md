@@ -2,6 +2,9 @@
 
 ### Docker Compose
 ```bash
+# On Ubuntu 20.04 and newer:
+xhost si:localuser:root
+
 # Bring up the container and start the demo
 docker-compose up -d
 
